@@ -1,0 +1,28 @@
+import time
+
+print('Naciśnij ENTER, aby rozpocząć. Następnie naciśnij ENTER, aby "zatrzymać" stoper. Naciśnij Ctrl-C, aby zakończyć.')
+
+input()  # Naciśnij Enter, aby rozpocząć
+print('Start.')
+startTime = time.time()  # Pobranie czasu rozpoczęcia pierwszej rundy
+lastTime = startTime
+lapNum = 1
+
+try:
+    while True:
+        input()
+        lapTime = round(time.time() - lastTime, 2)
+        totalTime = round(time.time() - startTime, 2)
+        print(f'Runda #{lapNum}: {totalTime} sekundy (czas trwania rundy: {lapTime} sekundy)', end='')
+        lapNum += 1
+        lastTime = time.time()  # Resetowanie czasu ostatniej rundy
+except KeyboardInterrupt:
+    print('\nZakończono.')
+
+
+#Wyjaśnienie działania kodu:
+#Importowanie modułu time: Używamy go do pomiaru aktualnego czasu.
+#Wyświetlenie instrukcji: Użytkownik otrzymuje instrukcję, by nacisnąć Enter, aby rozpocząć pomiar czasu.
+#Rozpoczęcie pomiaru: Po naciśnięciu Enter program zaczyna mierzyć czas.
+#Pętla while: Program czeka na każde naciśnięcie Entera, aby zakończyć aktualną rundę i rozpocząć nową. Po zakończeniu każdej rundy program oblicza czas trwania rundy oraz całkowity czas, który upłynął od rozpoczęcia.
+#Obsługa Ctrl-C: Użytkownik może zakończyć program, naciskając Ctrl-C, co nie spowoduje wyświetlenia komunikatu o błędzie, ale zakończy program i wyświetli komunikat "Zakończono."
