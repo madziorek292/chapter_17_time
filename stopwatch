@@ -1,0 +1,54 @@
+import time
+import pyperclip
+
+def prettified_stopwatch():
+    print("Press ENTER to begin. Afterward, press ENTER to 'click' the stopwatch. Press Ctrl-C to quit.")
+    input()  # Oczekiwanie na naciśnięcie ENTER
+    print('Started.')
+    start_time = time.time()  # Zapisanie aktualnego czasu na początku
+    last_time = start_time
+    lap_num = 1
+    laps = []
+
+    try:
+        while True:
+            input()  # Oczekiwanie na naciśnięcie ENTER
+            lap_time = round(time.time() - last_time, 2)  # Czas od ostatniego okrążenia
+            total_time = round(time.time() - start_time, 2)  # Całkowity czas
+            lap_info = (
+                f"Lap # {str(lap_num).rjust(2)}: {str(total_time).rjust(5)} "
+                f"({str(lap_time).rjust(5)})"
+            )
+            print(lap_info)
+            laps.append(lap_info)
+            lap_num += 1
+            last_time = time.time()  # Resetowanie czasu ostatniego okrążenia
+    except KeyboardInterrupt:
+        # Handling Ctrl-C
+        print("\nStopped.")
+        copied_text = '\n'.join(laps)
+        pyperclip.copy(copied_text)
+        print("Laps have been copied to the clipboard.")
+
+# Uruchomienie programu
+prettified_stopwatch()
+
+
+#Wyjaśnienie kodu:
+#Rozpoczęcie pomiaru czasu:
+
+#Program oczekuje na naciśnięcie ENTER i rozpoczyna odliczanie czasu.
+#Zapętlenie stopera:
+
+#Przy każdym naciśnięciu ENTER, program liczy czas trwania obecnego okrążenia (lap_time) oraz całkowity czas od startu (total_time).
+#Formatowanie wyników:
+
+#Zamiast prostego wyjścia, jak w poprzednich wersjach, dane o okrążeniach są formatowane za pomocą metod rjust() i ljust() w celu wyrównania tekstu.
+#rjust() dodaje odstępy z lewej strony, a ljust() z prawej strony, co sprawia, że dane są bardziej czytelne.
+#Przechwycenie Ctrl-C:
+
+#Jeśli użytkownik naciśnie Ctrl-C, program zakończy działanie, zapisze wszystkie okrążenia w schowku za pomocą pyperclip.copy(), aby użytkownik mógł łatwo skopiować wyniki.
+#Kopiowanie wyników do schowka:
+
+#Wszystkie wyniki są zapisywane w liście laps, a po zakończeniu stopera są kopiowane do schowka.
+#Ten program pozwala na "upiększone" wyświetlanie wyników stopera oraz łatwe kopiowanie ich do schowka.
