@@ -1,0 +1,75 @@
+import os
+import requests
+from bs4 import BeautifulSoup
+import datetime
+
+# Lista URL komiksów do sprawdzenia
+comic_urls = {
+    'comic_name1': 'https://example.com/comic1',
+    'comic_name2': 'https://example.com/comic2',
+    # Dodaj inne komiksy tutaj
+}
+
+# Folder do przechowywania pobranych komiksów
+download_folder = os.path.join(os.path.expanduser("~"), 'Desktop', 'Downloaded_Comics')
+
+# Sprawdzanie, czy folder istnieje, jeśli nie, to go tworzymy
+if not os.path.exists(download_folder):
+    os.makedirs(download_folder)
+
+# Funkcja do pobierania komiksu
+def download_comic(comic_name, comic_url):
+    response = requests.get(comic_url)
+    response.raise_for_status()
+
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Znajdowanie elementu HTML z obrazem komiksu (może być konieczne dostosowanie selektora)
+    comic_elem = soup.select('img.comic')  # przykład selektora
+
+    if comic_elem == []:
+        print(f'Nie można znaleźć obrazu komiksu na stronie {comic_url}.')
+        return
+
+    comic_img_url = comic_elem[0].get('src')
+
+    # Sprawdzenie, czy obrazek jest pełnym URL, jeśli nie, dodajemy adres bazowy
+    if not comic_img_url.startswith('http'):
+        comic_img_url = os.path.join(comic_url, comic_img_url)
+
+    # Pobieranie obrazka komiksu
+    print(f'Pobieranie obrazu komiksu z {comic_img_url}...')
+    comic_response = requests.get(comic_img_url)
+    comic_response.raise_for_status()
+
+    # Zapisanie obrazka na dysku
+    image_file_path = os.path.join(download_folder, f'{comic_name}_{datetime.date.today()}.jpg')
+    with open(image_file_path, 'wb') as image_file:
+        for chunk in comic_response.iter_content(100000):
+            image_file.write(chunk)
+
+    print(f'Komiks {comic_name} został pobrany i zapisany jako {image_file_path}.')
+
+# Sprawdzenie i pobieranie każdego komiksu
+for comic_name, comic_url in comic_urls.items():
+    download_comic(comic_name, comic_url)
+
+
+#Jak to działa:
+#Lista komiksów:
+
+#W słowniku comic_urls znajdują się nazwy komiksów i odpowiadające im URL-e stron z komiksami.
+#Folder docelowy:
+
+#Pobierane komiksy są zapisywane w folderze Downloaded_Comics na pulpicie użytkownika.
+#Pobieranie komiksu:
+
+#Program wykorzystuje moduł requests do pobierania strony komiksu i BeautifulSoup do parsowania HTML oraz znalezienia obrazu komiksu.
+#Adres URL obrazu jest pobierany, a następnie obraz jest zapisywany na dysku w odpowiednim folderze.
+#Automatyzacja:
+
+#Harmonogram systemowy może uruchamiać ten program codziennie, aby sprawdzić, czy pojawił się nowy komiks i automatycznie go pobrać.
+#Obsługa różnych stron:
+
+#Możesz dodać kolejne komiksy do słownika comic_urls i dostosować selektor soup.select() do odpowiednich elementów HTML na różnych stronach.
+#Ten program automatyzuje proces pobierania komiksów internetowych, co oszczędza czas i wysiłek użytkownika.
