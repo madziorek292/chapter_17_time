@@ -1,0 +1,58 @@
+#! python3
+# countdown.py - Prosty skrypt odliczający.
+import time
+import subprocess
+
+timeLeft = 60
+while timeLeft > 0:
+    print(timeLeft, end=' ')
+    time.sleep(1)
+    timeLeft -= 1
+
+# TODO: Po zakończeniu odliczania odtwórz plik dźwiękowy.
+
+
+#! python3
+# countdown.py - Prosty skrypt odliczający.
+import time
+import subprocess
+
+timeLeft = 60
+while timeLeft > 0:
+    print(timeLeft, end=' ')
+    time.sleep(1)
+    timeLeft -= 1
+
+# Na końcu odliczania, odtwórz plik dźwiękowy.
+subprocess.Popen(['start', 'alarm.wav'], shell=True)
+
+
+Pytania do ćwiczeń
+Czym jest epoka Uniksowa?
+Epoka Uniksowa to standardowy punkt odniesienia w programowaniu, który oznacza 1 stycznia 1970 roku o północy czasu UTC. Jest to początek liczenia czasu w wielu systemach komputerowych.
+
+Która funkcja zwraca liczbę sekund od początku epoki Uniksowej?
+Funkcja time.time() zwraca liczbę sekund, które upłynęły od początku epoki Uniksowej.
+
+Jak można wstrzymać działanie programu na dokładnie 5 sekund?
+Aby wstrzymać działanie programu na dokładnie 5 sekund, można użyć funkcji time.sleep(5).
+
+Co zwraca funkcja round()?
+Funkcja round() zwraca zaokrągloną wartość liczby do najbliższej całkowitej liczby. Można także zaokrąglić liczbę do określonej liczby miejsc po przecinku.
+
+Jaka jest różnica między obiektem datetime a obiektem timedelta?
+Obiekt datetime reprezentuje określony moment w czasie (datę i godzinę), natomiast obiekt timedelta reprezentuje różnicę czasu, czyli odstęp między dwoma punktami w czasie.
+
+Za pomocą modułu datetime, który dzień tygodnia przypadał na 7 stycznia 2019 roku?
+Aby sprawdzić, który dzień tygodnia przypadał na 7 stycznia 2019 roku, można użyć modułu datetime w Pythonie. W tym przypadku był to poniedziałek.
+
+Załóżmy, że masz funkcję o nazwie spam(). Jak można wywołać tę funkcję i uruchomić jej kod w osobnym wątku?
+Aby wywołać funkcję spam() i uruchomić jej kod w osobnym wątku, można użyć modułu threading w Pythonie. Przykład:
+
+python
+Skopiuj kod
+import threading
+thread = threading.Thread(target=spam)
+thread.start()
+Co należy zrobić, aby uniknąć problemów z współbieżnością w przypadku wielu wątków?
+Aby uniknąć problemów z współbieżnością w przypadku wielu wątków, należy upewnić się, że wątki operują tylko na zmiennych lokalnych lub używać mechanizmów synchronizacji, takich jak blokady (ang. locks), aby kontrolować dostęp do współdzielonych zasobów.
